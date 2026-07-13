@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+    <key>NSBluetoothAlwaysUsageDescription</key>
+    <string>SoFlow uses Bluetooth to connect to your e-scooter.</string>
+    <key>NSBluetoothPeripheralUsageDescription</key>
+    <string>SoFlow uses Bluetooth to communicate with your e-scooter.</string>
+    <key>NSLocationWhenInUseUsageDescription</key>
+    <string>SoFlow uses your location to track rides.</string>
+    <key>UIBackgroundModes</key>
+    <array>
+        <string>bluetooth-central</string>
+        <string>location</string>
+    </array>
+    <key>CFBundleName</key>
+    <string>SoFlow</string>
+    <key>CFBundleDisplayName</key>
+    <string>SoFlow</string>
+    <key>CFBundleIdentifier</key>
+    <string>com.soflow.app</string>
+    <key>CFBundleVersion</key>
+    <string>1</string>
+    <key>CFBundleShortVersionString</key>
+    <string>1.0.0</string>
+    <key>CFBundlePackageType</key>
+    <string>APPL</string>
+    <key>LSRequiresIPhoneOS</key>
+    <true/>
+    <key>UILaunchScreen</key>
+    <dict/>
+    <key>UISupportedInterfaceOrientations</key>
+    <array>
+        <string>UIInterfaceOrientationPortrait</string>
+    </array>
+</dict>
+</plist>
