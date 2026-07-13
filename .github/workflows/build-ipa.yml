@@ -1,0 +1,53 @@
+name: Build SoFlow IPA
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: macos-15
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Select Xcode
+        run: |
+          XCODE=$(ls /Applications | grep -E "Xcode_[0-9]+\.[0-9]+.app" | sort -V | tail -1)
+          echo "Using: $XCODE"
+          sudo xcode-select -s "/Applications/$XCODE"
+
+      - name: Install XcodeGen
+        run: brew install xcodegen
+
+      - name: Generate Xcode project
+        run: xcodegen generate --use-project-files
+
+      - name: Build app
+        run: |
+          xcodebuild -project SoFlow.xcodeproj \
+            -scheme SoFlow \
+            -sdk iphoneos \
+            -configuration Release \
+            -derivedDataPath build \
+            CODE_SIGNING_ALLOWED=NO \
+            CODE_SIGNING_REQUIRED=NO \
+            ARCHS=arm64 \
+            build 2>&1
+
+      - name: Package IPA
+        run: |
+          mkdir -p Payload
+          APP_PATH=$(find build -name "*.app" -type d | head -1)
+          echo "App bundle: $APP_PATH ($(du -sh "$APP_PATH" | cut -f1))"
+          cp -r "$APP_PATH" Payload/SoFlow.app
+          zip -r SoFlow.ipa Payload
+          rm -rf Payload
+          echo "IPA size: $(du -sh SoFlow.ipa | cut -f1)"
+
+      - name: Upload IPA
+        uses: actions/upload-artifact@v4
+        with:
+          name: SoFlow-iOS-IPA
+          path: SoFlow.ipa
+          compression-level: 0
