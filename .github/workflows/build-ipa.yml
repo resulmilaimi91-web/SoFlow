@@ -7,48 +7,163 @@ on:
 
 jobs:
   build:
-    runs-on: macos-14
+    runs-on: macos-15
     steps:
       - uses: actions/checkout@v4
 
       - name: Select Xcode
-        run: sudo xcode-select -s /Applications/Xcode_15.4.app
-
-      - name: Generate XcodeGen project spec
         run: |
-          cat > project.yml << 'XCODEGEN'
-          name: SoFlow
-          options:
-            bundleIdPrefix: com.soflow
-            deploymentTarget:
-              iOS: "17.0"
-          settings:
-            base:
-              SWIFT_VERSION: "5.9"
-          targets:
-            SoFlow:
-              type: application
-              platform: iOS
-              sources:
-                - Sources/SOFLOWApp
-                - Sources/SOFLOWCore
-              settings:
-                base:
-                  INFOPLIST_FILE: Assets/Info.plist
-                  PRODUCT_BUNDLE_IDENTIFIER: com.soflow.app
-                  CODE_SIGN_STYLE: Manual
-                  CODE_SIGN_IDENTITY: ""
-                  PROVISIONING_PROFILE_SPECIFIER: ""
-              dependencies: []
-          XCODEGEN
+          ls /Applications | grep Xcode
+          sudo xcode-select -s /Applications/Xcode_16.app 2>/dev/null || sudo xcode-select -s /Applications/Xcode_15.4.app 2>/dev/null || sudo xcode-select -s /Applications/Xcode_15.3.app 2>/dev/null || echo "Xcode path TBD"
 
-      - name: Install XcodeGen
-        run: brew install xcodegen
+      - name: Create Xcode project manually
+        run: |
+          mkdir -p SoFlow.xcodeproj
 
-      - name: Generate Xcode project
-        run: xcodegen generate
+          cat > SoFlow.xcodeproj/project.pbxproj << 'PBX'
+          // !$*UTF8*$!
+          {
+            archiveVersion = 1;
+            classes = {};
+            objectVersion = 56;
+            objects = {
+              /* Begin PBXBuildFile section */
+              /* End PBXBuildFile section */
 
-      - name: Build IPA
+              /* Begin PBXFileReference section */
+              00000001 /* SoFlow.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SoFlow.app; sourceTree = BUILT_PRODUCTS_DIR; };
+              /* End PBXFileReference section */
+
+              /* Begin PBXFrameworksBuildPhase section */
+              00000002 = {isa = PBXFrameworksBuildPhase; buildActionMask = 2147483647; files = (); runOnlyForDeploymentPostprocessing = 0; };
+              /* End PBXFrameworksBuildPhase section */
+
+              /* Begin PBXGroup section */
+              00000003 = {isa = PBXGroup; children = (); sourceTree = "<group>"; };
+              00000004 /* Products */ = {isa = PBXGroup; children = (00000001); name = Products; sourceTree = "<group>"; };
+              00000005 = {isa = PBXGroup; children = (00000003, 00000004); sourceTree = "<group>"; };
+              /* End PBXGroup section */
+
+              /* Begin PBXNativeTarget section */
+              00000006 /* SoFlow */ = {isa = PBXNativeTarget; buildConfigurationList = 00000007; buildPhases = (00000008, 00000002, 00000009); buildRules = (); dependencies = (); name = SoFlow; productName = SoFlow; productReference = 00000001; productType = "com.apple.product-type.application"; };
+              /* End PBXNativeTarget section */
+
+              /* Begin PBXProject section */
+              00000010 /* Project object */ = {isa = PBXProject; attributes = {BuildIndependentTargetsInParallel = 1; LastSwiftUpdateCheck = 1530; LastUpgradeCheck = 1530; }; buildConfigurationList = 00000011; compatibilityVersion = "Xcode 14.0"; developmentRegion = en; hasScannedForEncodings = 0; knownRegions = (en, Base); mainGroup = 00000005; productRefGroup = 00000004; projectDirPath = ""; projectRoot = ""; targets = (00000006); };
+              /* End PBXProject section */
+
+              /* Begin PBXResourcesBuildPhase section */
+              00000009 = {isa = PBXResourcesBuildPhase; buildActionMask = 2147483647; files = (); runOnlyForDeploymentPostprocessing = 0; };
+              /* End PBXResourcesBuildPhase section */
+
+              /* Begin PBXSourcesBuildPhase section */
+              00000008 = {isa = PBXSourcesBuildPhase; buildActionMask = 2147483647; files = (); runOnlyForDeploymentPostprocessing = 0; };
+              /* End PBXSourcesBuildPhase section */
+
+              /* Begin XCBuildConfiguration section */
+              00000012 /* Debug */ = {isa = XCBuildConfiguration; buildSettings = { ALWAYS_SEARCH_USER_PATHS = NO; CLANG_ENABLE_MODULES = YES; INFOPLIST_FILE = Assets/Info.plist; IPHONEOS_DEPLOYMENT_TARGET = 17.0; PRODUCT_BUNDLE_IDENTIFIER = com.soflow.app; PRODUCT_NAME = SoFlow; SWIFT_VERSION = 5.0; TARGETED_DEVICE_FAMILY = "1,2"; CODE_SIGNING_ALLOWED = NO; CODE_SIGNING_REQUIRED = NO; }; name = Debug; };
+              00000013 /* Release */ = {isa = XCBuildConfiguration; buildSettings = { ALWAYS_SEARCH_USER_PATHS = NO; CLANG_ENABLE_MODULES = YES; INFOPLIST_FILE = Assets/Info.plist; IPHONEOS_DEPLOYMENT_TARGET = 17.0; PRODUCT_BUNDLE_IDENTIFIER = com.soflow.app; PRODUCT_NAME = SoFlow; SWIFT_VERSION = 5.0; TARGETED_DEVICE_FAMILY = "1,2"; CODE_SIGNING_ALLOWED = NO; CODE_SIGNING_REQUIRED = NO; }; name = Release; };
+              00000014 /* Debug */ = {isa = XCBuildConfiguration; buildSettings = { ALWAYS_SEARCH_USER_PATHS = NO; CLANG_ENABLE_MODULES = YES; COPY_PHASE_STRIP = NO; DEBUG_INFORMATION_FORMAT = dwarf; ENABLE_STRICT_OBJC_MSGSEND = YES; ENABLE_TESTABILITY = YES; GCC_DYNAMIC_NO_PIC = NO; GCC_OPTIMIZATION_LEVEL = 0; GCC_PREPROCESSOR_DEFINITIONS = ("DEBUG=1", "$(inherited)"); INFOPLIST_FILE = Assets/Info.plist; IPHONEOS_DEPLOYMENT_TARGET = 17.0; MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE; ONLY_ACTIVE_ARCH = YES; PRODUCT_BUNDLE_IDENTIFIER = com.soflow.app; PRODUCT_NAME = SoFlow; SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG; SWIFT_OPTIMIZATION_LEVEL = "-Onone"; SWIFT_VERSION = 5.0; TARGETED_DEVICE_FAMILY = "1,2"; CODE_SIGNING_ALLOWED = NO; CODE_SIGNING_REQUIRED = NO; }; name = Debug; };
+              00000015 /* Release */ = {isa = XCBuildConfiguration; buildSettings = { ALWAYS_SEARCH_USER_PATHS = NO; CLANG_ENABLE_MODULES = YES; COPY_PHASE_STRIP = NO; DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym"; ENABLE_NS_ASSERTIONS = NO; ENABLE_STRICT_OBJC_MSGSEND = YES; GCC_OPTIMIZATION_LEVEL = s; INFOPLIST_FILE = Assets/Info.plist; IPHONEOS_DEPLOYMENT_TARGET = 17.0; MTL_ENABLE_DEBUG_INFO = NO; PRODUCT_BUNDLE_IDENTIFIER = com.soflow.app; PRODUCT_NAME = SoFlow; SWIFT_COMPILATION_MODE = wholemodule; SWIFT_VERSION = 5.0; TARGETED_DEVICE_FAMILY = "1,2"; CODE_SIGNING_ALLOWED = NO; CODE_SIGNING_REQUIRED = NO; }; name = Release; };
+              /* End XCBuildConfiguration section */
+
+              /* Begin XCConfigurationList section */
+              00000007 = {isa = XCConfigurationList; buildConfigurations = (00000014, 00000015); defaultConfigurationIsVisible = 0; defaultConfigurationName = Release; };
+              00000011 = {isa = XCConfigurationList; buildConfigurations = (00000012, 00000013); defaultConfigurationIsVisible = 0; defaultConfigurationName = Release; };
+              /* End XCConfigurationList section */
+            };
+            rootObject = 00000010;
+          }
+          PBX
+
+      - name: Create scheme
+        run: |
+          mkdir -p SoFlow.xcodeproj/xcshareddata/xcschemes
+          cat > SoFlow.xcodeproj/xcshareddata/xcschemes/SoFlow.xcscheme << 'SCHEME'
+          <?xml version="1.0" encoding="UTF-8"?>
+          <Scheme LastUpgradeVersion="1530" version="1.7">
+            <BuildAction parallelizeBuildables="YES" buildImplicitDependencies="YES">
+              <BuildActionEntries>
+                <BuildActionEntry buildForTesting="YES" buildForRunning="YES" buildForProfiling="YES" buildForArchiving="YES" buildForAnalyzing="YES">
+                  <BuildableReference BuildableIdentifier="primary" BlueprintIdentifier="00000006" BuildableName="SoFlow.app" BlueprintName="SoFlow" ReferencedContainer="container:SoFlow.xcodeproj">
+                  </BuildableReference>
+                </BuildActionEntry>
+              </BuildActionEntries>
+            </BuildAction>
+            <TestAction buildConfiguration="Debug" selectedDebuggerIdentifier="Xcode.DebuggerFoundation.Debugger.LLDB" selectedLauncherIdentifier="Xcode.DebuggerFoundation.Launcher.LLDB" shouldUseLaunchSchemeArgsEnv="YES">
+              <Testables>
+              </Testables>
+            </TestAction>
+            <LaunchAction buildConfiguration="Debug" selectedDebuggerIdentifier="Xcode.DebuggerFoundation.Debugger.LLDB" selectedLauncherIdentifier="Xcode.DebuggerFoundation.Launcher.LLDB" launchStyle="0" useCustomWorkingDirectory="NO" ignoresPersistentStateOnLaunch="NO" debugDocumentVersioning="YES" debugServiceExtension="internal" allowLocationSimulation="YES">
+              <BuildableProductRunnable runnableDebuggingMode="0">
+                <BuildableReference BuildableIdentifier="primary" BlueprintIdentifier="00000006" BuildableName="SoFlow.app" BlueprintName="SoFlow" ReferencedContainer="container:SoFlow.xcodeproj">
+                </BuildableReference>
+              </BuildableProductRunnable>
+            </LaunchAction>
+            <ProfileAction buildConfiguration="Release" shouldUseLaunchSchemeArgsEnv="YES" savedToolIdentifier="" useCustomWorkingDirectory="NO" debugDocumentVersioning="YES">
+              <BuildableProductRunnable runnableDebuggingMode="0">
+                <BuildableReference BuildableIdentifier="primary" BlueprintIdentifier="00000006" BuildableName="SoFlow.app" BlueprintName="SoFlow" ReferencedContainer="container:SoFlow.xcodeproj">
+                </BuildableReference>
+              </BuildableProductRunnable>
+            </ProfileAction>
+            <AnalyzeAction buildConfiguration="Debug">
+            </AnalyzeAction>
+            <ArchiveAction buildConfiguration="Release" revealArchiveInOrganizer="YES">
+            </ArchiveAction>
+          </Scheme>
+          SCHEME
+
+      - name: Find all Swift source files
+        run: |
+          find Sources -name "*.swift" > sources.txt
+          echo "Sources found:"
+          cat sources.txt
+
+      - name: Add source files to project
+        run: |
+          cd SoFlow.xcodeproj
+          python3 -c "
+          import plistlib, os, uuid
+
+          with open('project.pbxproj', 'r') as f:
+              content = f.read()
+
+          buildFileSection = ''
+          fileRefSection = ''
+          sourcesBuildPhaseFiles = ''
+          groupChildren = ''
+
+          buildPhaseGuid = '00000008'
+          mainGroupGuid = '00000003'
+
+          # Read all swift files
+          with open('../sources.txt') as sf:
+              files = [l.strip() for l in sf if l.strip()]
+
+          for f in files:
+              ref_guid = uuid.uuid4().hex.upper()[:24]
+              build_guid = uuid.uuid4().hex.upper()[:24]
+              fname = os.path.basename(f)
+
+              buildFileSection += f'\t\t\t\t{build_guid} /* {fname} in Sources */ = {{isa = PBXBuildFile; fileRef = {ref_guid} /* {fname} */; }};\n'
+              fileRefSection += f'\t\t\t\t{ref_guid} /* {fname} */ = {{isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = {f}; sourceTree = SOURCE_ROOT; }};\n'
+              sourcesBuildPhaseFiles += f'\t\t\t\t{build_guid} /* {fname} in Sources */,\n'
+              groupChildren += f'\t\t\t\t{ref_guid} /* {fname} */,\n'
+
+          # Insert sections
+          content = content.replace('/* Begin PBXBuildFile section */', '/* Begin PBXBuildFile section */\n' + buildFileSection)
+          content = content.replace('/* End PBXBuildFile section */', '/* End PBXBuildFile section */')
+          content = content.replace('/* Begin PBXFileReference section */\n              /* End PBXFileReference section */', '/* Begin PBXFileReference section */\n' + fileRefSection + '\t\t\t\t/* End PBXFileReference section */')
+          content = content.replace('files = ();', 'files = (\n' + sourcesBuildPhaseFiles + '\t\t\t);', 1)
+          content = content.replace('children = ();', 'children = (\n' + groupChildren + '\t\t\t);', 1)
+
+          with open('project.pbxproj', 'w') as f:
+              f.write(content)
+          print('Updated pbxproj with all source files')
+          "
+          cd ..
+
+      - name: Build app
         run: |
           xcodebuild -project SoFlow.xcodeproj \
             -scheme SoFlow \
@@ -56,15 +171,19 @@ jobs:
             -configuration Release \
             -derivedDataPath build \
             CODE_SIGNING_ALLOWED=NO \
-            ARCHS="arm64" \
-            build
+            CODE_SIGNING_REQUIRED=NO \
+            ARCHS=arm64 \
+            build 2>&1
 
-      - name: Create IPA structure
+      - name: Package IPA
         run: |
           mkdir -p Payload
-          cp -r build/Build/Products/Release-iphoneos/SoFlow.app Payload/
+          APP_PATH=$(find build -name "*.app" -type d | head -1)
+          echo "Found app at: $APP_PATH"
+          cp -r "$APP_PATH" Payload/SoFlow.app
           zip -r SoFlow.ipa Payload
           rm -rf Payload
+          ls -la SoFlow.ipa
 
       - name: Upload IPA
         uses: actions/upload-artifact@v4
