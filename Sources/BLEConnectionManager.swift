@@ -37,7 +37,7 @@ public final class BLEConnectionManager: NSObject, ObservableObject {
     private let minRSSI: Int = -85
     private let scannerNameFilter = "HIBOY"
 
-    private var lastKnownPeripheralUUID: UUID? {
+    var lastKnownPeripheralUUID: UUID? {
         get { UserDefaults.standard.object(forKey: "last_known_peripheral") as? UUID }
         set { UserDefaults.standard.set(newValue?.uuidString, forKey: "last_known_peripheral") }
     }
