@@ -33,7 +33,7 @@ public struct ScannerView: View {
             Text(manager.connectionState.label)
                 .font(.caption)
                 .foregroundColor(.secondary)
-            if manager.connectionState == .reconnecting {
+            if case .reconnecting = manager.connectionState {
                 ProgressView()
                     .scaleEffect(0.7)
             }
