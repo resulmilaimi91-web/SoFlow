@@ -145,7 +145,7 @@ public final class BLEConnectionManager: NSObject, ObservableObject {
         reconnectAttempts += 1
         connectionState = .reconnecting(reconnectAttempts, maxReconnectAttempts)
         reconnectTimer?.invalidate()
-        reconnectTimer = Timer.scheduledTimer(withTimeInterval: reconnectDelay, forMode: .common) { [weak self] _ in
+        let timer = Timer(timeInterval: reconnectDelay, repeats: false) { [weak self] _ in
             Task { @MainActor in
                 guard let self = self, let uuid = self.lastKnownPeripheralUUID else { return }
                 let peripherals = self.central.retrievePeripherals(withIdentifiers: [uuid])
@@ -159,7 +159,9 @@ public final class BLEConnectionManager: NSObject, ObservableObject {
                 }
             }
         }
-        reconnectTimer?.fire()
+        RunLoop.main.add(timer, forMode: .common)
+        reconnectTimer = timer
+        timer.fire()
     }
 
     private func stopTimers() {
