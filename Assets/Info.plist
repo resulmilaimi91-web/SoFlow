@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+    <key>NSBluetoothAlwaysUsageDescription</key>
+    <string>SoFlow uses Bluetooth to connect to your e-scooter for control, monitoring, and locking.</string>
+    <key>NSBluetoothPeripheralUsageDescription</key>
+    <string>SoFlow uses Bluetooth to communicate with your e-scooter.</string>
+    <key>NSLocationWhenInUseUsageDescription</key>
+    <string>SoFlow uses your location to track your rides and show them on the map.</string>
+    <key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
+    <string>SoFlow uses your location to track your rides even when the app is in the background.</string>
+    <key>NSAppTransportSecurity</key>
+    <dict>
+        <key>NSExceptionDomains</key>
+        <dict>
+            <key>47.52.238.166</key>
+            <dict>
+                <key>NSExceptionAllowsInsecureHTTPLoads</key>
+                <true/>
+            </dict>
+        </dict>
+    </dict>
+    <key>UIBackgroundModes</key>
+    <array>
+        <string>bluetooth-central</string>
+        <string>location</string>
+    </array>
+    <key>CFBundleName</key>
+    <string>SoFlow</string>
+    <key>CFBundleDisplayName</key>
+    <string>SoFlow</string>
+    <key>CFBundleIdentifier</key>
+    <string>com.soflow.app</string>
+    <key>CFBundleVersion</key>
+    <string>1</string>
+    <key>CFBundleShortVersionString</key>
+    <string>1.0.0</string>
+    <key>UILaunchScreen</key>
+    <dict/>
+</dict>
+</plist>
